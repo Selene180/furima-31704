@@ -49,11 +49,9 @@ Things you may want to cover:
 | Column                | Type       | Options           |
 | --------------------- | ---------- | ----------------- |
 | name                  | string     | null: false       |
-| description           | string     | null: false       |
-| details               | string     | null: false       |
+| description           | text       | null: false       |
 | category_id           | integer    | null: false       |
 | status_id             | integer    | null: false       |
-| regarding_delivery    | string     | null: false       |
 | delivery_fee_id       | integer    | null: false       |
 | shipping_area_id      | integer    | null: false       |
 | delivery_time_id      | integer    | null: false       |
