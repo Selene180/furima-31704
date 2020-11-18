@@ -35,14 +35,13 @@ Things you may want to cover:
 | family_name          | string | null: false |
 | first_name           | string | null: false |
 | birthday             | date   | null: false |
-| full_width character | string | null: false |
-| full_width katakana  | string | null: false |
+| full_width_character | string | null: false |
+| full_width_katakana  | string | null: false |
 
 ### Association
 
 * has_many :items
-- has_one :address
-- has_many :purchase_record
+- has_many :purchase_records
 
 
 ## items テーブル
@@ -52,12 +51,12 @@ Things you may want to cover:
 | name                  | string     | null: false       |
 | description           | string     | null: false       |
 | details               | string     | null: false       |
-| category              | string     | null: false       |
-| status                | string     | null: false       |
-| regarding_delivery_id | integer    | null: false       |
-| delivery_fee          | string     | null: false       |
-| shipping_area         | string     | null: false       |
-| delivery_time         | string     | null: false       |
+| category_id           | integer    | null: false       |
+| status_id             | integer    | null: false       |
+| regarding_delivery    | string     | null: false       |
+| delivery_fee_id       | integer    | null: false       |
+| shipping_area_id      | integer    | null: false       |
+| delivery_time_id      | integer    | null: false       |
 | price                 | integer    | null: false       |
 | user                  | references | foreign_key: true |
 
