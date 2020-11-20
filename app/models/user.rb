@@ -15,5 +15,4 @@ class User < ApplicationRecord
   has_many :purchase_records
 
   validates :nickname, presence: true, length: { maximum: 40 }
-
 end
