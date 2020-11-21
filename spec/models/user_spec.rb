@@ -2,18 +2,19 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
+    sleep(1)
     @user = FactoryBot.build(:user)
   end
 
   describe 'ユーザー新規登録' do
     context '新規登録がうまくいくとき' do
-      it 'nicknameとemail、passwordとencrypted_password、お名前(全角)姓とお名前(全角)名、お名前カナ(全角)姓とお名前カナ(全角)名、生年月日が存在すれば登録できること' do
+      it 'nicknameとemail、passwordとpassword_confirmation、お名前(全角)姓とお名前(全角)名、お名前カナ(全角)姓とお名前カナ(全角)名、生年月日が存在すれば登録できること' do
         expect(@user).to be_valid
       end
 
       it 'passwordが6文字以上であれば登録できる' do
-        @user.password = '000000'
-        @user.password_confirmation = '000000'
+        @user.password = 'aa0000'
+        @user.password_confirmation = 'aa0000'
         expect(@user).to be_valid
       end
     end
@@ -81,6 +82,46 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Birthday can't be blank")
       end
+
+      it 'メールアドレスに＠を含まないと登録ができないこと' do
+        @user.email= "test.com"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email is invalid")
+      end
+
+      it 'パスワードは確認用を含めて2回入力しなければ登録できないこと' do
+        @user.password_confirmation = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+
+      it 'ユーザー本名は、全角（漢字・ひらがな・カタカナ）で入力しなければ登録できないこと' do
+        @user.family_name = "aaAA00"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name is invalid. Input full_width characters.")
+      end
+
+      it 'ユーザー本名のフリガナは、全角（カタカナ）で入力しなければ登録できないこと' do
+        @user.full_width_katakana = "太郎たろうaaAA00"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Full width katakana is invalid. Input full_width katakana characters.")
+      end
     end
   end
 end
+
+
+
+
+# # メールアドレスは@を含む必要がある　→　＠を含まないと登録ができないというテストを行う
+# # @user.email= "test.com"
+
+
+# # パスワードは確認用を含めて2回入力する
+# # @user.encrypted_password= ''
+
+# # ユーザー本名は、全角（漢字・ひらがな・カタカナ）で入力させる
+# @user.nickname = ”テスト太郎てすと”→正常系テスト
+
+# # ユーザー本名のフリガナは、全角（カタカナ）で入力させる
+# @user.full_width_katakana = ”太郎てすと”→異常系テスト
