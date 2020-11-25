@@ -36,19 +36,19 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Status can't be blank")
       end
 
-      it "搬送についてで搬送料の負担がないと商品の情報は保存できない" do
+      it "配送についてで配送料の負担がないと商品の情報は保存できない" do
         @item.delivery_fee_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
       end
 
-      it "搬送についてで発送元の地域がないと商品の情報は保存できない" do
+      it "配送についてで発送元の地域がないと商品の情報は保存できない" do
         @item.prefecture_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
 
-      it "搬送についてで発送までの日数がないと商品の情報は保存できない" do
+      it "配送についてで発送までの日数がないと商品の情報は保存できない" do
         @item.delivery_time_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery time can't be blank")
@@ -58,6 +58,54 @@ RSpec.describe Item, type: :model do
         @item.price = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
+
+      it "カテゴリーの値が1だと商品の情報は保存できない" do
+        @item.category_id = "1"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+
+      it "商品の状態の値が1だと商品の情報は保存できない" do
+        @item.status_id = "1"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status must be other than 1")
+      end
+
+      it "配送料の負担の値が1だと商品の情報は保存できない" do
+        @item.delivery_fee_id = "1"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery fee must be other than 1")
+      end
+
+      it "発送先の地域の値が0だと商品の情報は保存できない" do
+        @item.prefecture_id = "0"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Prefecture must be other than 0")
+      end
+
+      it "発送までの日数の値が1だと商品の情報は保存できない" do
+        @item.delivery_time_id = "1"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery time must be other than 1")
+      end
+
+      it "価格の範囲が¥300~¥9,999,999の間でないと商品の情報は保存できない" do
+        @item.price = "200"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Product price is for under 300 and over 99999999")
+      end
+      
+      it "販売価格が半角数字で入力しなければ商品の情報は保存できない" do
+        @item.price = "５００"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Product price is for under 300 and over 99999999")
+      end
+
+      it "画像が1つも無いと商品の情報は保存できない" do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
       end
     end
   end
