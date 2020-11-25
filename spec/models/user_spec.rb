@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    sleep(1)
     @user = FactoryBot.build(:user)
   end
 
@@ -109,19 +108,3 @@ RSpec.describe User, type: :model do
     end
   end
 end
-
-
-
-
-# # メールアドレスは@を含む必要がある　→　＠を含まないと登録ができないというテストを行う
-# # @user.email= "test.com"
-
-
-# # パスワードは確認用を含めて2回入力する
-# # @user.encrypted_password= ''
-
-# # ユーザー本名は、全角（漢字・ひらがな・カタカナ）で入力させる
-# @user.nickname = ”テスト太郎てすと”→正常系テスト
-
-# # ユーザー本名のフリガナは、全角（カタカナ）で入力させる
-# @user.full_width_katakana = ”太郎てすと”→異常系テスト
