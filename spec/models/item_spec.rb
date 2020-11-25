@@ -90,8 +90,14 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Delivery time must be other than 1")
       end
 
-      it "価格の範囲が¥300~¥9,999,999の間でないと商品の情報は保存できない" do
-        @item.price = "200"
+      it "出品価格が¥299以下では商品の情報は保存できない" do
+        @item.price = "299"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Product price is for under 300 and over 99999999")
+      end
+
+      it "出品価格が¥9,999,999以上では商品の情報は保存できない" do
+        @item.price = "10000000"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price Product price is for under 300 and over 99999999")
       end
