@@ -83,9 +83,9 @@ RSpec.describe User, type: :model do
       end
 
       it 'メールアドレスに＠を含まないと登録ができないこと' do
-        @user.email= "test.com"
+        @user.email = 'test.com'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Email is invalid")
+        expect(@user.errors.full_messages).to include('Email is invalid')
       end
 
       it 'パスワードは確認用を含めて2回入力しなければ登録できないこと' do
@@ -95,15 +95,15 @@ RSpec.describe User, type: :model do
       end
 
       it 'ユーザー本名は、全角（漢字・ひらがな・カタカナ）で入力しなければ登録できないこと' do
-        @user.family_name = "aaAA00"
+        @user.family_name = 'aaAA00'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Family name is invalid. Input full_width characters.")
+        expect(@user.errors.full_messages).to include('Family name is invalid. Input full_width characters.')
       end
 
       it 'ユーザー本名のフリガナは、全角（カタカナ）で入力しなければ登録できないこと' do
-        @user.full_width_katakana = "太郎たろうaaAA00"
+        @user.full_width_katakana = '太郎たろうaaAA00'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Full width katakana is invalid. Input full_width katakana characters.")
+        expect(@user.errors.full_messages).to include('Full width katakana is invalid. Input full_width katakana characters.')
       end
     end
   end
