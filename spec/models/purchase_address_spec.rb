@@ -5,7 +5,6 @@ RSpec.describe PurchaseAddress, type: :model do
     buyer = FactoryBot.create(:user)
     seller = FactoryBot.create(:user)
     item = FactoryBot.create(:item, user_id: seller.id)
-    # item.save
     @purchase_address = FactoryBot.build(:purchase_address, user_id: buyer.id, item_id: item.id)
   end
 

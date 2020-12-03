@@ -3,6 +3,7 @@ class PurchaseRecordsController < ApplicationController
   before_action :set_item
 
   def index
+    redirect_to root_path if current_user.id == @item.user_id
     redirect_to root_path unless @item.purchase_record.nil?
     @purchase_address = PurchaseAddress.new
   end
@@ -31,10 +32,6 @@ class PurchaseRecordsController < ApplicationController
       card: purchase_record_params[:token],
       currency: 'jpy'
     )
-  end
-
-  def set_user
-    redirect_to root_path unless user_signed_in?
   end
 
   def set_item
