@@ -1,9 +1,8 @@
 class PurchaseRecordsController < ApplicationController
-  before_action :set_user
-  before_actio :set_item
+  before_action :authenticate_user!
+  before_action :set_item
 
   def index
-    redirect_to root_path if current_user.id == @item.user_id
     redirect_to root_path unless @item.purchase_record.nil?
     @purchase_address = PurchaseAddress.new
   end
