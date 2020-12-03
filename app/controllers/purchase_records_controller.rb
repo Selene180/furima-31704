@@ -1,11 +1,16 @@
 class PurchaseRecordsController < ApplicationController
+  before_action :set_user
+
   def index
     @item = Item.find(params[:item_id])
+    redirect_to root_path if current_user.id == @item.user_id
+    redirect_to root_path unless @item.purchase_record.nil?
     @purchase_address = PurchaseAddress.new
   end
 
   def create
     @item = Item.find(params[:item_id])
+
     @purchase_address = PurchaseAddress.new(purchase_record_params)
     if @purchase_address.valid?
       pay_item
@@ -29,5 +34,9 @@ class PurchaseRecordsController < ApplicationController
       card: purchase_record_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def set_user
+    redirect_to root_path unless user_signed_in?
   end
 end
